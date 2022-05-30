@@ -1,0 +1,8 @@
+type Champions {
+  id: Int
+  name: String
+  biography: String
+  linkedin: String
+  avatar: String
+  order: Int
+}
