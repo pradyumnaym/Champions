@@ -19,5 +19,5 @@ def resolve_get_welcome_screens(_, info):
 
 
 get_db()
-schema = make_executable_schema(type_defs, query)
+schema = make_executable_schema(type_defs, query)  # type: ignore
 app = GraphQL(schema)
