@@ -19,6 +19,9 @@ class Champions(Base):
     # linkedin list -> link
     linkedin = Column(String, nullable=True)
 
+    # MSR profile -> link
+    msr_profile = Column(String, nullable=True)
+
     # avatar -> MHC photos
     avatar = Column(String, nullable=True)
 

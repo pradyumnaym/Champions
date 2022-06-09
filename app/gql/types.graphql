@@ -3,6 +3,7 @@ type Champions {
   name: String
   biography: String
   linkedin: String
+  msr_profile: String
   avatar: String
   order: Int
 }
