@@ -1,0 +1,88 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = "This is a champions microservices."
+authors = ["Mirza AasimBaig <v-mirzaba@microsoft.com>"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Typing :: Typed",
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "*"
+ariadne = "*"
+SQLAlchemy = "*"
+psycopg2-binary = "*"
+uvicorn = {extras = ["standard"], version = "*"}
+alembic = "*"
+pydantic = "*"
+python-dotenv = "*"
+requests = "*"
+
+[tool.poetry.dev-dependencies]
+# Testing.
+pytest = "*"
+pytest-cov="*"
+nox-poetry = "*"
+pytest-azurepipelines = "*"
+
+# Type Checking.
+mypy = "*"
+
+# Linting.
+flake8 = "*"
+flake8-bugbear = "*"
+flake8-broken-line = "*"
+flake8-comprehensions = "*"
+pep8-naming = "*"
+pyproject-flake8 = "*"
+
+# Formatting.
+black = "*"
+isort = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+ignore_missing_imports = true
+strict = true
+
+[tool.flake8]
+max-line-length = 99
+extend-ignore = ["E203"]
+extend-immutable-calls = ["Argument"]
+extend-exclude = [".nox"]
+
+[tool.black]
+line-length = 99
+target-version = ["py38", "py39", "py310"]
+
+[tool.isort]
+profile = "black"
+line_length = 99
+force_sort_within_sections = true
+src_paths = ["src/fact"]
+skip_gitignore = true
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    # When running tests, treat warnings as errors (e.g. -Werror).
+    # See: https://docs.pytest.org/en/latest/reference/reference.html#confval-filterwarnings
+    "error",
+    # Add additional warning supressions as needed here. For example, if a third-party library
+    # is throwing a deprecation warning that needs to be fixed upstream:
+    # "ignore::DeprecationWarning:typer",
+]
+
+[tool.coverage.run]
+branch = true

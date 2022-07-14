@@ -20,8 +20,51 @@ variables:
   vmImageName: "ubuntu-latest"
 
 stages:
+- stage: Test
+  displayName: Run Test and Publish 
+  jobs:
+  - job: Test
+    displayName: Test
+    pool:
+      vmImage: $(vmImageName)
+    strategy:
+      matrix:
+        Python38:
+          python.version: '3.8'
+    
+    steps:
+    - task: UsePythonVersion@0
+      displayName: 'Use Python $(python.version)'
+      inputs:
+        versionSpec: '$(python.version)'
+
+    - script: python -m pip install --upgrade pip
+      displayName: Upgrade pip
+
+    - script: pipx install poetry
+      displayName: Install Poetry
+
+    - script: poetry install --no-root
+      displayName: Install all dependencies, including Nox
+    
+    - script: CONFIG=tests/test.env poetry run alembic upgrade head
+      displayName: Run testing database migration
+
+    - script: poetry run nox
+      displayName: Test with Nox
+      env:
+        DB_CONNECTION_STRING: "sqlite:///testing.db"
+
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFiles: '**/test-*.xml'
+        testRunTitle: 'Publish test results for Python $(python.version)'
+
+
 - stage: Build
   displayName: Build and push stage
+  dependsOn: Test
   jobs:
   - job: Build
     displayName: Build
