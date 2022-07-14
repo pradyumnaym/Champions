@@ -1,12 +1,12 @@
-from sqlalchemy import Integer, SmallInteger, String, create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy import Integer, SmallInteger, String
 from sqlalchemy.sql.schema import Column
 
-from .db_conf import SQLALCHEMY_DATABASE_URL, Base
+from .database_config import Base
 
 
 class Champions(Base):
     """Topics database model"""
+
     __tablename__ = "champions_table"
     id = Column(Integer, primary_key=True, autoincrement=True)
 
@@ -27,20 +27,3 @@ class Champions(Base):
 
     # order in which to display
     order = Column(SmallInteger, nullable=True)
-
-
-engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True)
-
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-Base.metadata.create_all(engine)
-
-
-# get database session
-def get_db():
-    """Yeilds database connection"""
-    try:
-        _db = SessionLocal()
-        yield _db
-    finally:
-        _db.close()

@@ -1,21 +1,23 @@
+import os
+
+from app.models import Base, Champions
+from dotenv import load_dotenv
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from app.models import Champions, Base
-import os
-from dotenv import load_dotenv
 
 load_dotenv()
 
+
 @pytest.fixture(scope="function")
 def engine():
-    """ Create Engine """
-    return create_engine(f"{os.environ.get('DB_CONNECTION_STRING')}")
+    """Create Engine"""
+    return create_engine(f"{os.environ['DB_CONNECTION_STRING']}")
 
 
 @pytest.fixture(scope="function")
 def tables(engine):
-    """ Create tables """
+    """Create tables"""
     Base.metadata.create_all(engine)
     yield
     Base.metadata.drop_all(engine)
@@ -23,26 +25,34 @@ def tables(engine):
 
 @pytest.fixture
 def db_session(tables, engine):
-    """ Create session """
-    Session = sessionmaker(bind=engine)
-    yield Session()
-    
+    """Returns an sqlalchemy session, and after the test tears down everything properly."""
+    connection = engine.connect()
+    # begin the nested transaction
+    transaction = connection.begin()
+    # use the connection with the already started transaction
+    session = sessionmaker(autocommit=False, autoflush=False, bind=connection)
+    session_local = session()
+    yield session_local
+
+    session_local.close()
+    # roll back the broader transaction
+    transaction.rollback()
+    # put back the connection to the connection pool
+    connection.close()
+
 
 @pytest.fixture
-def populate_db(tables,db_session):
-    """ Populate database """
-    Session = db_session
-    champion1 = Champions(name="Kalika", 
-                        biography="Mental health expert in career counselling", 
-                        linkedin="linkedin.com/in/kalika-1345",
-                        msr_profile="msr.com/kalika-2345",
-                        avatar="profile_kalika.png",
-                        order=1)
-    with Session as session:
+def populate_db(tables, db_session):
+    """Populate database"""
+    session = db_session
+    champion1 = Champions(
+        name="Kalika",
+        biography="Mental health expert in career counselling",
+        linkedin="linkedin.com/in/kalika-1345",
+        msr_profile="msr.com/kalika-2345",
+        avatar="profile_kalika.png",
+        order=1,
+    )
+    with session as session:
         session.add(champion1)
         session.commit()
-
-
-
-
-

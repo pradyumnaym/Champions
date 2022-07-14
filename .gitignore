@@ -1,3 +1,21 @@
+.idea
+.mypy_cache
+.nox
+.pytest_cache
+dist
+build
+htmlcov
+site
+__pycache__
+*.pyc
+*.egg-info
+.coverage
+.coverage.*
+.vscode
+.env
+*.db
+backup_LICENSE.txt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -6,6 +24,9 @@ Results.json
 
 # C extensions
 *.so
+
+# sqlite3 ignore
+*.db
 
 # Distribution / packaging
 .Python
@@ -60,6 +81,9 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+
+# junit
+junit/
 
 # Translations
 *.mo

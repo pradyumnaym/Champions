@@ -1,9 +1,13 @@
-from ariadne import (QueryType, gql, load_schema_from_path,
-                     make_executable_schema)
+from app import models
+from ariadne import QueryType, gql, load_schema_from_path, make_executable_schema
 from ariadne.asgi import GraphQL
+from fastapi import FastAPI
 
-from .db_definitions import get_mental_health_champions
-from .models import SessionLocal, get_db
+from .database_definitions import get_mental_health_champions
+from .db import SessionLocal, engine
+
+app = FastAPI()
+models.Base.metadata.create_all(bind=engine)
 
 type_defs = load_schema_from_path("./app/gql/")
 type_defs = gql(type_defs)
@@ -19,6 +23,5 @@ def resolve_get_welcome_screens(_, info):
     return get_mental_health_champions(session)
 
 
-get_db()
 schema = make_executable_schema(type_defs, query)  # type: ignore
-app = GraphQL(schema, context_value={"session": SessionLocal()})
+app.mount("/", GraphQL(schema, context_value={"session": SessionLocal()}))
