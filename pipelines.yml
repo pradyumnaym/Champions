@@ -33,6 +33,15 @@ stages:
           python.version: '3.8'
     
     steps:
+    - task: CredScan@3    
+    - task: Semmle@1
+      inputs:
+        sourceCodeDirectory: '$(Build.SourcesDirectory)'
+        language: 'python'
+        querySuite: 'Recommended'
+        timeout: '1800'
+        ram: '16384'
+        addProjectDirToScanningExclusionList: true
     - task: UsePythonVersion@0
       displayName: 'Use Python $(python.version)'
       inputs:
