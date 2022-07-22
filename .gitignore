@@ -82,9 +82,6 @@ coverage.xml
 .pytest_cache/
 cover/
 
-# junit
-junit/
-
 # Translations
 *.mo
 *.pot
