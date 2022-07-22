@@ -21,7 +21,7 @@ variables:
 
 stages:
 - stage: Test
-  displayName: Run Test and Publish 
+  displayName: Run Test and Publish
   jobs:
   - job: Test
     displayName: Test
@@ -31,7 +31,7 @@ stages:
       matrix:
         Python38:
           python.version: '3.8'
-    
+
     steps:
     - task: UsePythonVersion@0
       displayName: 'Use Python $(python.version)'
@@ -46,7 +46,7 @@ stages:
 
     - script: poetry install --no-root
       displayName: Install all dependencies, including Nox
-    
+
     - script: CONFIG=tests/test.env poetry run alembic upgrade head
       displayName: Run testing database migration
 
@@ -64,7 +64,6 @@ stages:
 
 - stage: Build
   displayName: Build and push stage
-  dependsOn: Test
   jobs:
   - job: Build
     displayName: Build
