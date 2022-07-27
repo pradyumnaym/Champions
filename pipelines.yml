@@ -38,14 +38,12 @@ stages:
         versionSpec: '3.8'
         addToPath: true
         architecture: 'x64'
-
-    - script: python -m pip install --upgrade pip
-      displayName: Upgrade pip
-
-    - script: pip install pylint
-      displayName: Install Pylint
-    - script: pylint app
-      displayName: Running Pylint
+        
+    - task: ESLint@1
+      inputs:
+        Configuration: 'required'
+        TargetType: 'eslint'
+        ErrorLevel: 'warn'
       
     - task: Semmle@1
       env:
