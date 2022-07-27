@@ -23,8 +23,8 @@ stages:
 - stage: RCT
   displayName: Rct Stage
   jobs:
-  - job: Test
-    displayName: Test
+  - job: RCT
+    displayName: RCT
     pool:
       vmImage: "windows-latest"
     steps:
@@ -39,6 +39,8 @@ stages:
         architecture: 'x64'
 
     - task: Semmle@1
+      env:
+        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
       inputs:
         sourceCodeDirectory: '$(Build.SourcesDirectory)'
         language: 'python'
