@@ -32,19 +32,12 @@ stages:
       inputs:
         outputFormat: 'pre'
 
-    
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '3.8'
         addToPath: true
         architecture: 'x64'
-        
-    - task: ESLint@1
-      inputs:
-        Configuration: 'required'
-        TargetType: 'eslint'
-        ErrorLevel: 'warn'
-      
+
     - task: Semmle@1
       env:
         SYSTEM_ACCESSTOKEN: $(System.AccessToken)
