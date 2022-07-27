@@ -45,7 +45,7 @@ stages:
         sourceCodeDirectory: '$(Build.SourcesDirectory)'
         language: 'python'
         querySuite: 'Recommended'
-        timeout: '3600'
+        timeout: '6400'
         ram: '16384'
         addProjectDirToScanningExclusionList: true
 
