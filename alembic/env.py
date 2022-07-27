@@ -30,6 +30,8 @@ target_metadata = models.Base.metadata
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+DB_CONNECTION_STRING = DB_CONNECTION_STRING.replace("%", "%%")
 config.set_main_option("sqlalchemy.url", f"{DB_CONNECTION_STRING}")
 
 

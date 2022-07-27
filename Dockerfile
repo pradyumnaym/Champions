@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/mirror/docker/library/python:3.9-slim as requirements-stage
+FROM mcr.microsoft.com/mirror/docker/library/python:3.8-slim as requirements-stage
 
 # Pin Poetry to a specific version to make Docker builds reproducible.
 ENV POETRY_VERSION 1.1.13
@@ -30,9 +30,9 @@ RUN poetry export -f requirements.txt --output requirements.txt --without-hashes
 # Final Staging #
 # ------------- #
 # This is the final stage, anything here will be preserved in the final container image.
-FROM mcr.microsoft.com/mirror/docker/library/python:3.9-slim
+FROM mcr.microsoft.com/mirror/docker/library/python:3.8-slim
 
-# Set the current working directory to /code. 
+# Set the current working directory to /code.
 WORKDIR /code
 
 # Copy the requirements.txt file to the /code directory.

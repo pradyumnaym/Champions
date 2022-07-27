@@ -15,6 +15,8 @@ type_defs = gql(type_defs)
 # Create type instance for Query type defined in our schema...
 query = QueryType()
 
+# ------------ QUERIES START HERE ------------------#
+
 
 @query.field("getMentalHealthChampions")
 def resolve_get_welcome_screens(_, info):
@@ -23,5 +25,12 @@ def resolve_get_welcome_screens(_, info):
     return get_mental_health_champions(session)
 
 
+def get_context_value(request):
+    return {"request": request, "session": SessionLocal()}
+
+
+# -------- QUERIES END HERE ------------#
+
+
 schema = make_executable_schema(type_defs, query)  # type: ignore
-app.mount("/", GraphQL(schema, context_value={"session": SessionLocal()}))
+app.mount("/", GraphQL(schema, context_value=get_context_value))
