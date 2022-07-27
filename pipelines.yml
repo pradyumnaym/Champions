@@ -36,6 +36,12 @@ stages:
     - task: CredScan@3
       inputs:
         outputFormat: 'pre'
+        
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        addToPath: true
+        architecture: 'x64'
 
     - task: Semmle@1
       inputs:
@@ -45,7 +51,20 @@ stages:
         timeout: '1800'
         ram: '16384'
         addProjectDirToScanningExclusionList: true
-    
+
+    - task: ComponentGovernanceComponentDetection@0
+      inputs:
+        scanType: 'Register'
+        verbosity: 'Verbose'
+        alertWarningLevel: 'High'
+
+    - task: PublishSecurityAnalysisLogs@3
+      inputs:
+        ArtifactName: 'CodeAnalysisLogs'
+        ArtifactType: 'Container'
+        AllTools: true
+        ToolLogsNotFoundAction: 'Standard'
+
     - task: UsePythonVersion@0
       displayName: 'Use Python $(python.version)'
       inputs:
