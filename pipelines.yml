@@ -106,7 +106,6 @@ stages:
 
 - stage: Build
   displayName: Build and push stage
-  dependsOn: Test
   jobs:
   - job: Build
     displayName: Build

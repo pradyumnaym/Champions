@@ -9,13 +9,13 @@ from sqlalchemy.orm import sessionmaker
 load_dotenv()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def engine():
     """Create Engine"""
     return create_engine(f"{os.environ['DB_CONNECTION_STRING']}")
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture
 def tables(engine):
     """Create tables"""
     Base.metadata.create_all(engine)
@@ -47,7 +47,7 @@ def populate_db(tables, db_session):
     session = db_session
     champion1 = Champions(
         name="Kalika",
-        biography="Mental health expert in career counselling",
+        biography="Volunteer for mental health well being f employees",
         linkedin="linkedin.com/in/kalika-1345",
         msr_profile="msr.com/kalika-2345",
         avatar="profile_kalika.png",
