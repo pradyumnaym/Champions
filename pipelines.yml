@@ -3,130 +3,38 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-  - main
+- main
 
 resources:
-  - repo: self
+- repo: self
+
+pool:
+ name: Custom
 
 variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: "2ad241b7-d342-4147-a83d-925fc43a05ad"
-  imageRepository: "champions-apis"
-  containerRegistry: "zencontainerregistry.azurecr.io"
-  dockerfilePath: "$(Build.SourcesDirectory)/Dockerfile"
-  tag: "$(Build.BuildId)"
-
-  # Agent VM image name
-  vmImageName: "ubuntu-latest"
+  - group: dev-zen-container-registry
+  - name: imageRepository
+    value: 'champions-apis'
+  - name: LGTM.UploadSnapshot
+    value: true,
+  - name: dockerfilePath
+    value: '$(Build.SourcesDirectory)/Dockerfile'
+  - name: tag
+    value: '$(Build.BuildId)'
 
 stages:
-- stage: RCT
-  displayName: Rct Stage
-  jobs:
-  - job: RCT
-    displayName: RCT
-    pool:
-      vmImage: "windows-latest"
-    steps:
-    - task: CredScan@3
-      inputs:
-        outputFormat: 'pre'
-
-    - task: UsePythonVersion@0
-      inputs:
-        versionSpec: '3.8'
-        addToPath: true
-        architecture: 'x64'
-
-    - task: Semmle@1
-      env:
-        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-      inputs:
-        sourceCodeDirectory: '$(Build.SourcesDirectory)'
-        language: 'python'
-        querySuite: 'Recommended'
-        timeout: '6400'
-        ram: '16384'
-        addProjectDirToScanningExclusionList: true
-
-    - task: ComponentGovernanceComponentDetection@0
-      inputs:
-        scanType: 'Register'
-        verbosity: 'Verbose'
-        alertWarningLevel: 'High'
-
-    - task: PublishSecurityAnalysisLogs@3
-      inputs:
-        ArtifactName: 'CodeAnalysisLogs'
-        ArtifactType: 'Container'
-        AllTools: true
-        ToolLogsNotFoundAction: 'Standard'
-    
-- stage: Test
-  displayName: Run Test and Publish
-  jobs:
-  - job: Test
-    displayName: Test
-    pool:
-      vmImage: $(vmImageName)
-    strategy:
-      matrix:
-        Python38:
-          python.version: '3.8'
-
-    steps:
-    - task: UsePythonVersion@0
-      displayName: 'Use Python $(python.version)'
-      inputs:
-        versionSpec: '$(python.version)'
-
-    - script: python -m pip install --upgrade pip
-      displayName: Upgrade pip
-
-    - script: pipx install poetry
-      displayName: Install Poetry
-
-    - script: poetry install --no-root
-      displayName: Install all dependencies, including Nox
-
-    - script: CONFIG=tests/test.env poetry run alembic upgrade head
-      displayName: Run testing database migration
-
-    - script: poetry run nox
-      displayName: Test with Nox
-      env:
-        DB_CONNECTION_STRING: "sqlite:///testing.db"
-
-    - task: PublishTestResults@2
-      condition: succeededOrFailed()
-      inputs:
-        testResultsFiles: '**/test-*.xml'
-        testRunTitle: 'Publish test results for Python $(python.version)'
-
-
-- stage: Build
-  displayName: Build and push stage
-  jobs:
-  - job: Build
-    displayName: Build
-    pool:
-      vmImage: $(vmImageName)
-    steps:
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          $(tag)
-    - task: Docker@2
-      displayName: Build and push an image to container registry
-      inputs:
-        command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
-        containerRegistry: $(dockerRegistryServiceConnection)
-        tags: |
-          latest
+ - stage: Hosting
+   displayName: Microservice Hosting
+   jobs:
+   - job: BuildMicroservice
+     displayName: Build Microservice
+     steps:
+     - bash: |
+        az login --service-principal -u $(azAppId) -p $(azPassword) --tenant $(azTenant)
+        az acr login -n zencontainerregistry
+        docker build . -t $(imageRepository):$(tag)
+        docker tag $(imageRepository):$(tag) zencontainerregistry.azurecr.io/$(imageRepository):$(tag)
+        docker push zencontainerregistry.azurecr.io/$(imageRepository):$(tag)
+        docker tag $(imageRepository):$(tag) zencontainerregistry.azurecr.io/$(imageRepository):latest
+        docker push zencontainerregistry.azurecr.io/$(imageRepository):latest
+        /confcom/create-container.sh confcom $(resourceGroup) $(containerRegistry) $(containerRegistryUsername) $(containerRegistryPassword) champions-deployment
