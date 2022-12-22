@@ -1,0 +1,25 @@
+{
+    "version": "1.0",
+    "containers": [
+        {
+            "containerImage": "zencontainerregistry.azurecr.io/champions-apis:latest",
+            "environmentVariables": [
+                {
+                    "name": "DB_CONNECTION_STRING",
+                    "value": ".+",
+                    "strategy": "re2"
+                }
+            ],
+            "workingDir": "/code",
+            "command": [
+                "uvicorn",
+                "app.main:app",
+                "--host",
+                "0.0.0.0",
+                "--port",
+                "3000"
+            ],
+            "allow_elevated": true
+        }
+    ]
+}

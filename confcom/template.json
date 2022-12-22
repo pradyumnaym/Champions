@@ -1,0 +1,145 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the container group"
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "westeurope",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "image": {
+            "type": "string",
+            "defaultValue": "zencontainerregistry.azurecr.io/champions-apis:latest",
+            "metadata": {
+                "description": "Container image to deploy. Should be of the form repoName/imagename:tag for images stored in public Docker Hub, or a fully qualified URI for other registries. Images from private registries require additional registry credentials."
+            }
+        },
+        "port": {
+            "type": "int",
+            "defaultValue": 3000,
+            "metadata": {
+                "description": "Port to open on the container and the public IP address."
+            }
+        },
+        "cpuCores": {
+            "type": "int",
+            "defaultValue": 1,
+            "metadata": {
+                "description": "The number of CPU cores to allocate to the container."
+            }
+        },
+        "memoryInGb": {
+            "type": "int",
+            "defaultValue": 2,
+            "metadata": {
+                "description": "The amount of memory to allocate to the container in gigabytes."
+            }
+        },
+        "restartPolicy": {
+            "type": "string",
+            "defaultValue": "Never",
+            "allowedValues": [
+                "Always",
+                "Never",
+                "OnFailure"
+            ],
+            "metadata": {
+                "description": "The behavior of Azure runtime if container has stopped."
+            }
+        },
+        "dnsNameLabel": {
+            "type": "string"
+        },
+        "dbConnectionString": {
+            "type": "securestring"
+        },
+        "ccePolicy": {
+            "type": "securestring"
+        },
+        "containerRegistry": {
+            "type": "securestring"
+        },
+        "containerRegistryUsername": {
+            "type": "securestring"
+        },
+        "containerRegistryPassword": {
+            "type": "securestring"
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.ContainerInstance/containerGroups",
+            "apiVersion": "2022-04-01-preview",
+            "name": "[parameters('name')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "confidentialComputeProperties": {
+                    "isolationType": "SevSnp",
+                    "ccePolicy": "[parameters('ccePolicy')]"
+                },
+                "containers": [
+                    {
+                        "name": "[parameters('name')]",
+                        "properties": {
+                            "image": "[parameters('image')]",
+                            "ports": [
+                                {
+                                    "port": "[parameters('port')]",
+                                    "protocol": "TCP"
+                                }
+                            ],
+                            "resources": {
+                                "requests": {
+                                    "cpu": "[parameters('cpuCores')]",
+                                    "memoryInGB": "[parameters('memoryInGb')]"
+                                }
+                            },
+                            "command": [
+                                "uvicorn",
+                                "app.main:app",
+                                "--host",
+                                "0.0.0.0",
+                                "--port",
+                                "3000"
+                            ],
+                            "environmentVariables": [
+                                {
+                                    "name": "DB_CONNECTION_STRING",
+                                    "value": "[parameters('dbConnectionString')]"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "imageRegistryCredentials": [
+                    {
+                        "password": "[parameters('containerRegistryPassword')]",
+                        "server": "[parameters('containerRegistry')]",
+                        "username": "[parameters('containerRegistryUsername')]"
+                    }
+                ],
+                "osType": "Linux",
+                "restartPolicy": "[parameters('restartPolicy')]",
+                "ipAddress": {
+                    "type": "Public",
+                    "ports": [
+                        {
+                            "port": "[parameters('port')]",
+                            "protocol": "TCP"
+                        }
+                    ],
+                    "dnsNameLabel": "[parameters('dnsNameLabel')]"
+                }
+            }
+        }
+    ],
+    "outputs": {}
+}
