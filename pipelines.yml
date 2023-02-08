@@ -32,11 +32,11 @@ stages:
      - bash: |
         az login --service-principal -u $(azAppId) -p $(azPassword) --tenant $(azTenant)
         az acr login -n zencontainerregistry
-        imageTag="$(containerRegistry)/$(imageRepository):$(tag)"
-        echo $imageTag
         docker build . -t $(imageRepository):$(tag)
         docker tag $(imageRepository):$(tag) zencontainerregistry.azurecr.io/$(imageRepository):$(tag)
         docker push zencontainerregistry.azurecr.io/$(imageRepository):$(tag)
         docker tag $(imageRepository):$(tag) zencontainerregistry.azurecr.io/$(imageRepository):latest
         docker push zencontainerregistry.azurecr.io/$(imageRepository):latest
+        imageTag="$(containerRegistry)/$(imageRepository):$(tag)"
+        echo $imageTag
         /confcom/create-container.sh confcom $(resourceGroup) $(containerRegistry) $(containerRegistryUsername) $(containerRegistryPassword) champions-deployment $imageTag
