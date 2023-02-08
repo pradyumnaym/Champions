@@ -1,3 +1,5 @@
 type Query {
   getMentalHealthChampions: [Champions]
+  champions: [Champions]
+  champion(id: Int): Champions
 }

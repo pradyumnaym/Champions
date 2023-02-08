@@ -1,0 +1,4 @@
+type Mutation{
+    addChampion(champion_data: ChampionData): Champions
+    updateChampion(id: Int, champion_data: ChampionData): Champions
+}
