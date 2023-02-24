@@ -72,6 +72,12 @@
     },
     "containerRegistryPassword": {
       "type": "securestring"
+    },
+    "workspaceId": {
+      "type": "securestring"
+    },
+    "workspaceKey": {
+      "type": "securestring"
     }
   },
   "resources": [
