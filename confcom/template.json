@@ -146,8 +146,8 @@
         },
         "diagnostics": {
           "logAnalytics": {
-            "workspaceId": "[parameters(workspaceId)]",
-            "workspaceKey": "[parameters(workspaceKey)]"
+            "workspaceId": "[parameters('workspaceId')]",
+            "workspaceKey": "[parameters('workspaceKey')]"
           }
         }
       }
