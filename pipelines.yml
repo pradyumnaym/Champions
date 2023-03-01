@@ -39,4 +39,4 @@ stages:
         docker push zencontainerregistry.azurecr.io/$(imageRepository):latest
         imageTag="$(containerRegistry)/$(imageRepository):$(tag)"
         echo $imageTag
-        /confcom/create-container.sh confcom $(resourceGroup) $(containerRegistry) $(containerRegistryUsername) $(containerRegistryPassword) champions-deployment $imageTag
+        /confcom/create-container.sh confcom $(resourceGroup) $(containerRegistry) $(containerRegistryUsername) $(containerRegistryPassword) champions $imageTag

@@ -64,6 +64,9 @@
         "ccePolicy": {
             "type": "securestring"
         },
+        "appInsightsConnectionString": {
+            "type": "securestring"
+        },
         "containerRegistry": {
             "type": "securestring"
         },
@@ -73,7 +76,10 @@
         "containerRegistryPassword": {
             "type": "securestring"
         },
-        "appInsightsConnectionString": {
+        "workspaceId": {
+            "type": "securestring"
+        },
+        "workspaceKey": {
             "type": "securestring"
         }
     },
@@ -144,6 +150,12 @@
                         }
                     ],
                     "dnsNameLabel": "[parameters('dnsNameLabel')]"
+                },
+                "diagnostics": {
+                    "logAnalytics": {
+                        "workspaceId": "[parameters('workspaceId')]",
+                        "workspaceKey": "[parameters('workspaceKey')]"
+                    }
                 }
             }
         }
