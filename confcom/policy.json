@@ -8,6 +8,11 @@
                     "name": "DB_CONNECTION_STRING",
                     "value": ".+",
                     "strategy": "re2"
+                },
+                {
+                    "name": "APPLICATION_INSIGHTS_CONNECTION_STRING",
+                    "value": ".+",
+                    "strategy": "re2"
                 }
             ],
             "workingDir": "/code",
