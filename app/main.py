@@ -39,7 +39,8 @@ champions = FederatedObjectType("Champions")
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
-    idem = "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    # idem = "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    idem = request.headers["requestId"]
     logger.info(f"rid={idem} start request path={request.url.path}", extra=properties)
     start_time = time.time()
     # request.scope["x-request-id"] = idem
