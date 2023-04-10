@@ -45,7 +45,7 @@
         },
         "restartPolicy": {
             "type": "string",
-            "defaultValue": "Never",
+            "defaultValue": "Always",
             "allowedValues": [
                 "Always",
                 "Never",
@@ -59,9 +59,6 @@
             "type": "string"
         },
         "dbConnectionString": {
-            "type": "securestring"
-        },
-        "ccePolicy": {
             "type": "securestring"
         },
         "appInsightsConnectionString": {
@@ -90,10 +87,6 @@
             "name": "[parameters('name')]",
             "location": "[parameters('location')]",
             "properties": {
-                "confidentialComputeProperties": {
-                    "isolationType": "SevSnp",
-                    "ccePolicy": "[parameters('ccePolicy')]"
-                },
                 "containers": [
                     {
                         "name": "[parameters('name')]",
