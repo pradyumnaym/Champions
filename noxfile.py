@@ -3,7 +3,7 @@
 import nox
 from nox_poetry import Session, session
 
-nox.options.reuse_existing_virtualenvs = True
+# nox.options.reuse_existing_virtualenvs = True
 nox.options.sessions = ["fmt_check", "lint", "test"]
 
 
