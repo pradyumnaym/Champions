@@ -1,24 +1,28 @@
 {
-    "name": {
-        "value": "champions"
-    },
-    "dnsNameLabel": {
-        "value": "devzenchampions"
-    },
-    "dbConnectionString": {
-        "reference": {
-            "keyvault": {
-                "id": "/subscriptions/b718f6b6-431f-4643-8004-939cca253715/resourceGroups/dev-mqrl-databases-zen/providers/Microsoft.KeyVault/vaults/zen-mqrl-store"
-            },
-            "secretname": "CHAMPIONS-CONNECTION-STRING"
-        }
-    },
-    "appInsightsConnectionString": {
-        "reference": {
-            "keyvault": {
-                "id": "/subscriptions/b718f6b6-431f-4643-8004-939cca253715/resourceGroups/dev-mqrl-databases-zen/providers/Microsoft.KeyVault/vaults/zen-mqrl-store"
-            },
-            "secretname": "APPLICATION-INSIGHTS-CONNECTION-STRING"
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "name": {
+            "value": "champions"
+        },
+        "dnsNameLabel": {
+            "value": "devzenchampions"
+        },
+        "dbConnectionString": {
+            "reference": {
+                "keyvault": {
+                    "id": "/subscriptions/b718f6b6-431f-4643-8004-939cca253715/resourceGroups/dev-mqrl-databases-zen/providers/Microsoft.KeyVault/vaults/zen-mqrl-store"
+                },
+                "secretname": "CHAMPIONS-CONNECTION-STRING"
+            }
+        },
+        "appInsightsConnectionString": {
+            "reference": {
+                "keyvault": {
+                    "id": "/subscriptions/b718f6b6-431f-4643-8004-939cca253715/resourceGroups/dev-mqrl-databases-zen/providers/Microsoft.KeyVault/vaults/zen-mqrl-store"
+                },
+                "secretname": "APPLICATION-INSIGHTS-CONNECTION-STRING"
+            }
         }
     }
 }

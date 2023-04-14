@@ -23,8 +23,8 @@
             }
         },
         "port": {
-            "type": "int",
-            "defaultValue": 3000,
+            "type": "string",
+            "defaultValue": "3000",
             "metadata": {
                 "description": "Port to open on the container and the public IP address."
             }
@@ -83,7 +83,7 @@
     "resources": [
         {
             "type": "Microsoft.ContainerInstance/containerGroups",
-            "apiVersion": "2022-04-01-preview",
+            "apiVersion": "2022-10-01-preview",
             "name": "[parameters('name')]",
             "location": "[parameters('location')]",
             "properties": {
@@ -134,6 +134,7 @@
                 ],
                 "osType": "Linux",
                 "restartPolicy": "[parameters('restartPolicy')]",
+                "sku": "Confidential",
                 "ipAddress": {
                     "type": "Public",
                     "ports": [
