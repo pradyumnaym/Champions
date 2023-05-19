@@ -31,14 +31,14 @@
         },
         "cpuCores": {
             "type": "int",
-            "defaultValue": 1,
+            "defaultValue": 2,
             "metadata": {
                 "description": "The number of CPU cores to allocate to the container."
             }
         },
         "memoryInGb": {
             "type": "int",
-            "defaultValue": 2,
+            "defaultValue": 4,
             "metadata": {
                 "description": "The amount of memory to allocate to the container in gigabytes."
             }
@@ -110,7 +110,9 @@
                                 "--host",
                                 "0.0.0.0",
                                 "--port",
-                                "3000"
+                                "[parameters('port')]",
+                                "--timeout-keep-alive",
+                                "15"
                             ],
                             "environmentVariables": [
                                 {
