@@ -1,4 +1,4 @@
 type Mutation{
-    addChampion(champion_data: ChampionData): Champions
-    updateChampion(id: Int, champion_data: ChampionData): Champions
+    champion(champion_id: Int = null, name: String = null, biography: String = null, linkedin: String = null,
+    msr_profile: String = null, avatar: String = null, order: Int = null ): Champions
 }

@@ -1,8 +1,0 @@
-input ChampionData {
-  name: String = null
-  biography: String = null
-  linkedin: String = null
-  msr_profile: String = null
-  avatar: String = null
-  order: Int = null
-}

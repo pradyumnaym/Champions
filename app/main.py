@@ -1,21 +1,14 @@
 import os
-import random
-import string
 import time
 
 from app import models
-from ariadne import MutationType, QueryType, gql, load_schema_from_path, make_executable_schema
+from ariadne import MutationType, QueryType, gql, load_schema_from_path
 from ariadne.asgi import GraphQL
 from ariadne.contrib.federation.objects import FederatedObjectType
 from ariadne.contrib.federation.schema import make_federated_schema
 from fastapi import FastAPI, Request
 
-from .database_definitions import (
-    create_champion,
-    get_champion_by_id,
-    get_mental_health_champions,
-    update_champion,
-)
+from .database_definitions import get_champion_by_id, get_mental_health_champions, update_champion
 from .db import SessionLocal, engine
 from .utils import get_logger
 
@@ -86,20 +79,23 @@ def resolve_champion(_, info, id):
     return get_champion_by_id(id=id, session=session)
 
 
-@mutation.field("addChampion")
-def resolve_add_champion(_, info, champion_data):
-    """Create a ne champion from champion data"""
+@mutation.field("champion")
+def resolve_update_champion(
+    _, info, champion_id, name, biography, linkedin, msr_profile, avatar, order
+):
+    """Create/Update champion"""
     logger.info("Mutation: addChampion ran successfully")
     session = info.context["session"]
-    return create_champion(champion_data=champion_data, session=session)
-
-
-@mutation.field("updateChampion")
-def resolve_update_champion(_, info, id, champion_data):
-    """Create a ne champion from champion data"""
-    logger.info("Mutation: updateChampion ran successfully")
-    session = info.context["session"]
-    return update_champion(id=id, champion_data=champion_data, session=session)
+    return update_champion(
+        champion_id=champion_id,
+        name=name,
+        biography=biography,
+        linkedin=linkedin,
+        msr_profile=msr_profile,
+        avatar=avatar,
+        order=order,
+        session=session,
+    )
 
 
 def get_context_value(request):
