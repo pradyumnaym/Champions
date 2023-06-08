@@ -42,6 +42,7 @@ def update_champion(
                 champion.avatar = avatar
             if order is not None:
                 champion.order = order
+            session.commit()
         return champion
     schema = ChampionsModel(
         name=name,

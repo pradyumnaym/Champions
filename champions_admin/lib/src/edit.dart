@@ -61,7 +61,6 @@ class ChampionsEditScreen extends StatelessWidget {
 
           final ChampionsData champion =
               ChampionsData.fromJson(result.data!['champion']);
-          print("edit called");
           return ChampionsForm(
             champion: champion,
             formType: ChampionsFormType.EDIT,

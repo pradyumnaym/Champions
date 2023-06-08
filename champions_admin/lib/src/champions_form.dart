@@ -181,16 +181,13 @@ class ChampionsFormState extends State<ChampionsForm> {
                     options: MutationOptions(
                       document: gql(_ChampionsMutation),
                       onError: (error) => debugPrint(error.toString()),
-                      onCompleted: (data) =>
-                          debugPrint("Mutation ran successfully"),
+                      onCompleted: (data) => debugPrint(data.toString()),
                     ),
                     builder: (RunMutation runMutation, _) {
                       return ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             if (widget.formType == ChampionsFormType.EDIT) {
-                              print("edit mutation");
-                              print(widget.champion!.id!);
                               await runMutation({
                                 "champion_id": widget.champion!.id!,
                                 "name": _nameController.text,

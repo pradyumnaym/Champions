@@ -84,9 +84,9 @@ def resolve_update_champion(
     _, info, champion_id, name, biography, linkedin, msr_profile, avatar, order
 ):
     """Create/Update champion"""
-    logger.info("Mutation: addChampion ran successfully")
+    logger.info("Mutation: champion ran successfully")
     session = info.context["session"]
-    return update_champion(
+    result = update_champion(
         champion_id=champion_id,
         name=name,
         biography=biography,
@@ -96,6 +96,7 @@ def resolve_update_champion(
         order=order,
         session=session,
     )
+    return result
 
 
 def get_context_value(request):

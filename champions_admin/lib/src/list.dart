@@ -23,7 +23,7 @@ class ChampionsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               ElevatedButton(
-                onPressed: () => context.push("/Champions/create"),
+                onPressed: () => context.push("/champions/create"),
                 child: Text('+ Create Champions'),
               ),
             ],
@@ -125,7 +125,6 @@ class ChampionsListView extends StatelessWidget {
 }
 
 DataRow championDataRow(BuildContext context, ChampionsData champion) {
-  print(champion.name!);
   return DataRow(
     onSelectChanged: (value) {
       if (value!) {
