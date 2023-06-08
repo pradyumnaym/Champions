@@ -27,7 +27,7 @@ def update_champion(
 ):
     """Return updated champion data"""
     if champion_id is not None:
-        query = select(ChampionsModel).filter(ChampionsModel.id == id)
+        query = select(ChampionsModel).filter(ChampionsModel.id == champion_id)
         with session as session:
             champion = session.execute(query).scalars().unique().one()
             if name is not None:
