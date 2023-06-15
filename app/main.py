@@ -10,7 +10,7 @@ from fastapi import FastAPI, Request
 
 from .database_definitions import get_champion_by_id, get_mental_health_champions, update_champion
 from .db import SessionLocal, engine
-from .utils import get_logger
+from .utils import get_logger, get_sas_url
 
 APPLICATION_INSIGHTS_CONNECTION_STRING = os.environ["APPLICATION_INSIGHTS_CONNECTION_STRING"]
 logger = get_logger(APPLICATION_INSIGHTS_CONNECTION_STRING=APPLICATION_INSIGHTS_CONNECTION_STRING)
@@ -53,6 +53,12 @@ async def log_requests(request: Request, call_next):
 def resolve_champions_data(_, info, representation):
     session = info.context["session"]
     return get_mental_health_champions(session)
+
+
+@champions.field("avatar")
+def resolve_image(obj, *_):
+    if obj.avatar:
+        return get_sas_url(url=obj.avatar)
 
 
 @query.field("getMentalHealthChampions")
@@ -106,5 +112,5 @@ def get_context_value(request):
 # -------- QUERIES END HERE ------------#
 
 
-schema = make_federated_schema(type_defs, [query, mutation])  # type: ignore
+schema = make_federated_schema(type_defs, [query, mutation, champions])  # type: ignore
 app.mount("/", GraphQL(schema, context_value=get_context_value))

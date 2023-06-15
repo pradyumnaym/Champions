@@ -23,6 +23,25 @@
                 },
                 "secretname": "APPLICATION-INSIGHTS-CONNECTION-STRING"
             }
+        },
+        "STORAGE_ACCOUNT_NAME": {
+            "reference": {
+                "keyvault": {
+                    "id": "/subscriptions/b718f6b6-431f-4643-8004-939cca253715/resourceGroups/dev-mqrl-databases-zen/providers/Microsoft.KeyVault/vaults/zen-mqrl-store"
+                },
+                "secretname": "STORAGE-ACCOUNT-NAME"
+            }
+        },
+        "STORAGE_ACCOUNT_KEY": {
+            "reference": {
+                "keyvault": {
+                    "id": "/subscriptions/b718f6b6-431f-4643-8004-939cca253715/resourceGroups/dev-mqrl-databases-zen/providers/Microsoft.KeyVault/vaults/zen-mqrl-store"
+                },
+                "secretname": "STORAGE-ACCOUNT-KEY"
+            }
+        },
+        "STORAGE_CONTAINER": {
+            "value": "assets"
         }
     }
 }

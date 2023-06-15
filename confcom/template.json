@@ -78,6 +78,15 @@
         },
         "workspaceKey": {
             "type": "securestring"
+        },
+        "STORAGE_ACCOUNT_NAME": {
+            "type": "securestring"
+        },
+        "STORAGE_ACCOUNT_KEY": {
+            "type": "securestring"
+        },
+        "STORAGE_CONTAINER": {
+            "type": "securestring"
         }
     },
     "resources": [
@@ -122,6 +131,18 @@
                                 {
                                     "name": "APPLICATION_INSIGHTS_CONNECTION_STRING",
                                     "value": "[parameters('appInsightsConnectionString')]"
+                                },
+                                {
+                                    "name": "STORAGE_ACCOUNT_NAME",
+                                    "value": "[parameters('STORAGE_ACCOUNT_NAME')]"
+                                },
+                                {
+                                    "name": "STORAGE_ACCOUNT_KEY",
+                                    "value": "[parameters('STORAGE_ACCOUNT_KEY')]"
+                                },
+                                {
+                                    "name": "STORAGE_CONTAINER",
+                                    "value": "[parameters('STORAGE_CONTAINER')]"
                                 }
                             ]
                         }
