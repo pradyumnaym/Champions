@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/mirror/docker/library/python:3.8-slim
+FROM mcr.microsoft.com/mirror/docker/library/python:3.10-slim
 
 # Copy the requirements.txt file to the /code directory.
 # This file only lives in the previous Docker stage, that's why we use --from-requirements-stage to copy it.

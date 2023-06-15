@@ -2,6 +2,7 @@ import base64
 from datetime import datetime, timedelta
 import logging
 import os
+from urllib.parse import unquote
 
 from azure.storage.blob import AccountSasPermissions, BlobServiceClient, generate_blob_sas
 from opencensus.ext.azure.log_exporter import AzureLogHandler
@@ -37,7 +38,8 @@ def get_logger(APPLICATION_INSIGHTS_CONNECTION_STRING):
 
 
 def get_sas_url(url):
-    expiry = datetime.utcnow() + timedelta(days=sas_token_days)  # Set SAS token validity
+    expiry = datetime.utcnow() + timedelta(days=sas_token_days)
+    url = unquote(url)  # Set SAS token validity
     blob = url.split("/assets")[1]
     blob = blob[1:]
     blob_client = blob_service_client.get_blob_client(STORAGE_CONTAINER, blob)
