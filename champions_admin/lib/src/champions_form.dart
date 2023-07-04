@@ -103,7 +103,7 @@ class ChampionsFormState extends State<ChampionsForm> {
                   child: TextFormField(
                     controller: _nameController,
                     decoration: const InputDecoration(
-                        labelText: 'name',
+                        labelText: 'Name',
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(width: 1))),
@@ -118,7 +118,7 @@ class ChampionsFormState extends State<ChampionsForm> {
                   child: TextFormField(
                     controller: biographyController,
                     decoration: const InputDecoration(
-                        labelText: 'Data',
+                        labelText: 'Biography',
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(width: 1))),
@@ -131,12 +131,10 @@ class ChampionsFormState extends State<ChampionsForm> {
                   child: TextFormField(
                     controller: _avatarController,
                     decoration: const InputDecoration(
-                        labelText: 'Type',
+                        labelText: 'Avatar',
                         border: OutlineInputBorder(),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(width: 1))),
-                    validator: (value) =>
-                        value!.isEmpty ? 'Type is required' : null,
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(8)),
