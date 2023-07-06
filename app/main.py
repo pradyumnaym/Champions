@@ -57,6 +57,8 @@ def resolve_champions_data(_, info, representation):
 
 @champions.field("avatar")
 def resolve_image(obj, *_):
+    print(obj)
+    print(obj.avatar)
     if obj.avatar:
         return get_sas_url(url=obj.avatar)
 
