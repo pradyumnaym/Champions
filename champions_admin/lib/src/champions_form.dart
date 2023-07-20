@@ -33,14 +33,13 @@ class ChampionsFormState extends State<ChampionsForm> {
   @override
   void initState() {
     String? image = widget.champion!.avatar;
-      if (image!.contains('jpg')) {
-        image = '${image.split('jpg')[0]}jpg';
-      }
-      if (image.contains('png')) {
-        image = '${image.split('png')[0]}png';
-      }
-      if (image.contains('jpeg')) {
-        image = '${image.split('jpeg')[0]}jpeg';
+      List<String> imageExtensions = ['.jpg', '.png', '.jpeg', '.svg'];
+
+      for (String extension in imageExtensions) {
+        if (image!.contains(extension)) {
+          image = '${image.split(extension)[0]}$extension';
+          break;
+        }
       }
     if (widget.formType == ChampionsFormType.EDIT) {
       _nameController = TextEditingController(text: widget.champion!.name);
