@@ -27,6 +27,7 @@ class ChampionsFormState extends State<ChampionsForm> {
   late TextEditingController _linkedinController;
   late TextEditingController _msr_profileController;
   late TextEditingController _avatarController;
+  late TextEditingController _newFieldController;
 
   late String _ChampionsMutation;
   late String _label;
@@ -52,10 +53,12 @@ class ChampionsFormState extends State<ChampionsForm> {
           TextEditingController(text: widget.champion!.linkedin);
       _msr_profileController =
           TextEditingController(text: widget.champion!.msr_profile);
+      _newFieldController =
+          TextEditingController(text: widget.champion!.new_field);
 
       _ChampionsMutation = '''
-              mutation champion(\$champion_id: Int!, \$name: String!, \$biography: String!, \$linkedin: String!, \$msr_profile: String!, \$avatar: String!, \$order: Int!){
-                champion(champion_id: \$champion_id, name: \$name, biography: \$biography, linkedin: \$linkedin, msr_profile: \$msr_profile, avatar: \$avatar, order: \$order) {
+              mutation champion(\$champion_id: Int!, \$name: String!, \$biography: String!, \$linkedin: String!, \$msr_profile: String!, \$avatar: String!, \$order: Int!, \$new_field: String!){
+                champion(champion_id: \$champion_id, name: \$name, biography: \$biography, linkedin: \$linkedin, msr_profile: \$msr_profile, avatar: \$avatar, order: \$order, new_field: \$new_field) {
                   id
                   name
                   biography
@@ -63,6 +66,7 @@ class ChampionsFormState extends State<ChampionsForm> {
                   order
                   linkedin
                   msr_profile
+                  new_field
                 }
               }
             ''';
@@ -74,9 +78,10 @@ class ChampionsFormState extends State<ChampionsForm> {
       _orderController = TextEditingController();
       _linkedinController = TextEditingController();
       _msr_profileController = TextEditingController();
+      _newFieldController = TextEditingController();
       _ChampionsMutation = '''
-              mutation champion(\$name: String!, \$biography: String!, \$linkedin: String!, \$msr_profile: String!, \$avatar: String!, \$order: Int!){
-                champion(name: \$name, biography: \$biography, linkedin: \$linkedin, msr_profile: \$msr_profile, avatar: \$avatar, order: \$order) {
+              mutation champion(\$name: String!, \$biography: String!, \$linkedin: String!, \$msr_profile: String!, \$avatar: String!, \$order: Int!, \$new_field: String!){
+                champion(name: \$name, biography: \$biography, linkedin: \$linkedin, msr_profile: \$msr_profile, avatar: \$avatar, order: \$order, new_field: \$new_field) {
                   id
                   name
                   biography
@@ -84,6 +89,7 @@ class ChampionsFormState extends State<ChampionsForm> {
                   order
                   linkedin
                   msr_profile
+                  new_field
                 }
               }
             ''';
@@ -183,6 +189,19 @@ class ChampionsFormState extends State<ChampionsForm> {
                             borderSide: BorderSide(width: 1))),
                   ),
                 ),
+                Container(
+                  height: 70,
+                  width: 700,
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: TextFormField(
+                    controller: _newFieldController,
+                    decoration: const InputDecoration(
+                        labelText: 'New Field',
+                        border: OutlineInputBorder(),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(width: 1))),
+                  ),
+                ),
                 Mutation(
                     options: MutationOptions(
                       document: gql(_ChampionsMutation),
@@ -201,7 +220,8 @@ class ChampionsFormState extends State<ChampionsForm> {
                                 "avatar": _avatarController.text,
                                 "order": int.parse(_orderController.text),
                                 "linkedin": _linkedinController.text,
-                                "msr_profile": _msr_profileController.text
+                                "msr_profile": _msr_profileController.text,
+                                "new_field": _newFieldController.text,
                               }).networkResult;
                             } else {
                               await runMutation({
@@ -212,7 +232,8 @@ class ChampionsFormState extends State<ChampionsForm> {
                                     ? int.parse(_orderController.text)
                                     : 0,
                                 "linkedin": _linkedinController.text,
-                                "msr_profile": _msr_profileController.text
+                                "msr_profile": _msr_profileController.text,
+                                "new_field": _newFieldController.text,
                               }).networkResult;
                             }
                             context.pop();
