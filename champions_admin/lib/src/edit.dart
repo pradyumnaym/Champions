@@ -44,6 +44,7 @@ class ChampionsEditScreen extends StatelessWidget {
                   msr_profile
                   order
                   avatar
+                  new_field
                 }
               }
             '''), variables: {'championId': championId}),
