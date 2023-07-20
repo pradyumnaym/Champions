@@ -32,12 +32,21 @@ class ChampionsFormState extends State<ChampionsForm> {
   late String _label;
   @override
   void initState() {
-    print("Form for champion");
+    String? image = widget.champion!.avatar;
+      if (image!.contains('jpg')) {
+        image = '${image.split('jpg')[0]}jpg';
+      }
+      if (image.contains('png')) {
+        image = '${image.split('png')[0]}png';
+      }
+      if (image.contains('jpeg')) {
+        image = '${image.split('jpeg')[0]}jpeg';
+      }
     if (widget.formType == ChampionsFormType.EDIT) {
       _nameController = TextEditingController(text: widget.champion!.name);
       biographyController =
           TextEditingController(text: widget.champion!.biography);
-      _avatarController = TextEditingController(text: widget.champion!.avatar);
+      _avatarController = TextEditingController(text: image);
       _orderController =
           TextEditingController(text: widget.champion!.order.toString());
       _linkedinController =
