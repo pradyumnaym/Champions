@@ -27,6 +27,3 @@ class Champions(Base):
 
     # order in which to display
     order = Column(SmallInteger, nullable=True)
-
-    # new field
-    new_field = Column(String, nullable=True)

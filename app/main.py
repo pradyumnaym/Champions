@@ -87,7 +87,7 @@ def resolve_champion(_, info, id):
 
 @mutation.field("champion")
 def resolve_update_champion(
-    _, info, champion_id, name, biography, linkedin, msr_profile, avatar, order, new_field
+    _, info, champion_id, name, biography, linkedin, msr_profile, avatar, order
 ):
     """Create/Update champion"""
     logger.info("Mutation: champion ran successfully")
@@ -100,7 +100,6 @@ def resolve_update_champion(
         msr_profile=msr_profile,
         avatar=avatar,
         order=order,
-        new_field=new_field,
         session=session,
     )
     return result

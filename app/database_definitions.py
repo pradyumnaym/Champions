@@ -23,7 +23,7 @@ def get_champion_by_id(id: int, session: Session):
 
 
 def update_champion(
-    champion_id, name, biography, linkedin, msr_profile, avatar, order, new_field, session: Session
+    champion_id, name, biography, linkedin, msr_profile, avatar, order, session: Session
 ):
     """Return updated champion data"""
     if champion_id is not None:
@@ -42,8 +42,6 @@ def update_champion(
                 champion.avatar = avatar
             if order is not None:
                 champion.order = order
-            if new_field is not None:
-                champion.new_field = new_field
             session.commit()
         return champion
     schema = ChampionsModel(
@@ -53,7 +51,6 @@ def update_champion(
         msr_profile=msr_profile,
         avatar=avatar,
         order=order,
-        new_field=new_field,
     )
     with session as session:
         session.add(schema)
