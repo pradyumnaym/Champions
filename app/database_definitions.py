@@ -23,21 +23,21 @@ def get_champion_by_id(id: int, session: Session):
 
 
 def update_champion(
-    champion_id, name, biography, linkedin, msr_profile, avatar, order, new_field, session: Session
+    champion_id, name, biography, linkedin, msr_profile_id, avatar, order, new_field, session: Session
 ):
-    """Return updated champion data"""
-    if champion_id is not None:
-        query = select(ChampionsModel).filter(ChampionsModel.id == champion_id)
-        with session as session:
-            champion = session.execute(query).scalars().unique().one()
-            if name is not None:
-                champion.name = name
-            if biography is not None:
-                champion.biography = biography
+    ...
+    if msr_profile_id is not None:
+        champion.msr_profile_id = msr_profile_id
+    ...
+    schema = ChampionsModel(
+        ...
+        msr_profile_id=msr_profile_id,
+        ...
+    )
             if linkedin is not None:
                 champion.linkedin = linkedin
-            if msr_profile is not None:
-                champion.msr_profile = msr_profile
+            if msr_profile_id is not None:
+                champion.msr_profile_id = msr_profile_id
             if avatar is not None:
                 champion.avatar = avatar
             if order is not None:
@@ -50,7 +50,7 @@ def update_champion(
         name=name,
         biography=biography,
         linkedin=linkedin,
-        msr_profile=msr_profile,
+        msr_profile_id=msr_profile_id,
         avatar=avatar,
         order=order,
         new_field=new_field,
