@@ -1,5 +1,3 @@
-library champions_admin;
-
 import 'package:champions_admin/src/gql_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
@@ -59,7 +57,7 @@ class ChampionsListView extends StatelessWidget {
                   avatar
                   order
                   linkedin
-                  msr_profile
+                  msr_profile_id
                   }
                 }
 
@@ -135,7 +133,7 @@ DataRow championDataRow(BuildContext context, ChampionsData champion) {
       DataCell(Text(champion.name!)),
       DataCell(Text(champion.biography!)),
       DataCell(Text(champion.linkedin!)),
-      DataCell(Text(champion.msr_profile!)),
+      DataCell(Text(champion.msr_profile_id!)),
       DataCell(Text(champion.avatar!))
     ],
   );
