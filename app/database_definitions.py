@@ -36,11 +36,22 @@ def update_champion(
                 champion.biography = biography
     if msr_profile_id is not None:
         champion.msr_profile_id = msr_profile_id
-    ...
+    if linkedin is not None:
+        champion.linkedin = linkedin
+    if avatar is not None:
+        champion.avatar = avatar
+    if order is not None:
+        champion.order = order
+    if new_field is not None:
+        champion.new_field = new_field
     schema = ChampionsModel(
-        ...
+        name=name,
+        biography=biography,
+        linkedin=linkedin,
         msr_profile_id=msr_profile_id,
-        ...
+        avatar=avatar,
+        order=order,
+        new_field=new_field,
     )
             if linkedin is not None:
                 champion.linkedin = linkedin
